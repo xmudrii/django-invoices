@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from .secrets import *
 
@@ -29,8 +30,7 @@ DEBUG = SETTINGS_DEBUG
 ALLOWED_HOSTS = SETTINGS_ALLOWED_HOSTS
 
 
-# TODO(xmudrii): Change this.
-# LOGIN_REDIRECT_URL = '/articles'
+LOGIN_REDIRECT_URL = '/invoices'
 
 
 # Application definition
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'invoices.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # TODO(xmudrii): Change this.
+        'DIRS': ['templates', os.path.join(BASE_DIR, 'invoices_app/../templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
