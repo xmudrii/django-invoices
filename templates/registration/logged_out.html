@@ -1,0 +1,10 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    Good bye! Thanks for using our application!
+{% endblock %}
+
+{% block content %}
+    <p>Logged out!</p>
+    <a href="{% url 'login'%}">Click here to login again.</a>
+{%  endblock %}

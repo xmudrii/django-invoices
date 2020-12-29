@@ -1,0 +1,24 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="{% url 'invoices_app:invoices' %}">
+        <!-- TODO(xmudrii): Put image here. -->
+        <!--<img src="{% static 'img/rocket.png' %}" width="30" height="30" class="d-inline-block align-top" alt="logo"/>-->
+        Invoicing
+    </a>
+
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            {% if not perms.invoices_app.add_invoice %}
+                <a class="nav-link disabled" href="{% url 'invoices_app:new' %}">New Invoice</a>
+            {% else %}
+                <a class="nav-link" href="{% url 'invoices_app:new' %}">New Invoice</a>
+            {% endif %}
+        </li>
+    </ul>
+
+    {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'logout' %}">Logout {{ user.get_username }}</a>
+    {% endif %}
+
+</nav>
