@@ -29,6 +29,10 @@ DEBUG = SETTINGS_DEBUG
 ALLOWED_HOSTS = SETTINGS_ALLOWED_HOSTS
 
 
+# TODO(xmudrii): Change this.
+# LOGIN_REDIRECT_URL = '/articles'
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,7 +59,7 @@ ROOT_URLCONF = 'invoices.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [],  # TODO(xmudrii): Change this.
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,8 +80,12 @@ WSGI_APPLICATION = 'invoices.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': SETTINGS_DATABASE_NAME,
+        'HOST': SETTINGS_DATABASE_HOST,
+        'PORT': SETTINGS_DATABASE_PORT,
+        'USER': SETTINGS_DATABASE_USER,
+        'PASSWORD': SETTINGS_DATABASE_PASSWORD
     }
 }
 
