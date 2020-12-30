@@ -39,7 +39,10 @@ def invoice_new(req):
                           remarks=form.cleaned_data['remarks'],
                           owner=req.user)
             inv.save()
-            return redirect('invoices_app:edit', invoice_id=inv.id)
+            if req.user.has_perm('invoices_app.change_invoice'):
+                return redirect('invoices_app:edit', invoice_id=inv.id)
+            else:
+                return redirect('invoices_app:invoices')
         else:
             return render(req, 'new.html', {'form': form})
     else:
@@ -83,8 +86,9 @@ def invoice_delete(req, invoice_id):
 
 @permission_required('invoices_app.change_invoice')
 def invoice_new_item(req, invoice_id):
+    inv = get_object_or_404(Invoice, id=invoice_id)
+
     if req.method == 'POST':
-        inv = get_object_or_404(Invoice, id=invoice_id)
         form = InvoiceItemForm(req.POST)
 
         if form.is_valid():
