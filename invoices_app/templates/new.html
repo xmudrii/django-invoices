@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block content %}
+    <h3>New invoice</h3>
+    <!-- New invoice form -->
     <form class="row g-3" method="post" action="{% url 'invoices_app:new' %}">
         {% csrf_token %}
           <div class="col-md-6">
@@ -125,10 +127,11 @@
               {% endif %}
           </div>
           <div class="col-12">
-              <p>Save the invoice to add subitems.</p>
+              <p>Save the invoice to add items.</p>
           </div>
           <div class="col-12">
               <button type="submit" class="btn btn-primary">Save</button>
           </div>
     </form>
+
 {% endblock %}

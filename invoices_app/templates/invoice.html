@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block content %}
+    <h3>Invoice</h3>
+    <!-- Invoice details -->
     <div class="row g-3">
         <div class="col-md-6">
             <p><b>Invoice #: {{ invoice.number }}</b></p>
@@ -19,7 +21,7 @@
         <div class="col-md-12 text-start">
             <p><b>{{ invoice.company_name }}</b></p>
             <p>{{ invoice.company_address }}</p>
-            <p>{{ invoice.company_address }}</p>
+            <p>{{ invoice.company_post_code }} {{ invoice.company_city }}</p>
             <p>{{ invoice.company_country }}</p>
         </div>
         <div class="col-md-12"></div>
@@ -51,9 +53,10 @@
 
     </div>
 
+    <!-- Items payment details and remarks -->
     <div class="row g-3 mt-5">
         <div class="col-md-12 text-start">
-            <p><b>Total:</b> {{ total.total|intcomma }}</p>
+            <p><b>Total:</b> {{ total.total|default_if_none:'0.00'|intcomma }}</p>
         </div>
         <div class="col-md-12 text-start">
             <p><b>Pay to:</b> {{ invoice.payment_account }}</p>
@@ -67,6 +70,7 @@
 
     </div>
 
+    <!-- Buttons -->
     <div class="col-12 d-print-none">
         <a class="btn btn-primary" href="{% url 'invoices_app:new_item' invoice.id %}" role="button">Add new item</a>
         <a class="btn btn-primary" href="{% url 'invoices_app:edit' invoice.id %}" role="button">Edit invoice details</a>
@@ -95,4 +99,5 @@
       </div>
     </div>
     {% endif %}
+
 {% endblock %}
