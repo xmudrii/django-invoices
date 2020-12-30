@@ -118,3 +118,10 @@ def invoice_edit_item(req, item_id):
     else:
         form = InvoiceItemForm(instance=inv_item)
         return render(req, 'edititem.html', {'form': form, 'item_id': item_id})
+
+
+@permission_required('invoices_app.change_invoice')
+def invoice_delete_item(req, item_id):
+    inv_item = get_object_or_404(InvoiceItem, id=item_id)
+    inv_item.delete()
+    return redirect('invoices_app:edit', invoice_id=inv_item.invoice.id)

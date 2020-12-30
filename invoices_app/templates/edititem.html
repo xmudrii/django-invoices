@@ -35,6 +35,31 @@
           </div>
           <div class="col-12">
               <button type="submit" class="btn btn-primary">Save</button>
+              {% if perms.invoices_app.change_invoice %}
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmInvoiceItemDelete">Delete item</button>
+              {% endif %}
           </div>
     </form>
+
+    {% if perms.invoices_app.change_invoice %}
+    <!-- Modal -->
+    <div class="modal fade" id="confirmInvoiceItemDelete" tabindex="-1" aria-labelledby="confirmInvoiceItemDeleteLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmInvoiceItemDeleteLabel">Delete invoice item?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            This will delete the invoice item permanently. Are you sure you want to proceed?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a class="btn btn-danger" href="{% url 'invoices_app:deleteitem' item_id %}" role="button">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
 {% endblock %}
