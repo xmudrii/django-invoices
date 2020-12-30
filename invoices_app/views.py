@@ -26,7 +26,7 @@ def invoice(req, invoice_id):
     return render(req, 'invoice.html', {'invoice': inv, 'invoice_items': inv_items, 'total': total})
 
 
-@permission_required('invoices_app.add_invoice')
+@permission_required('invoices_app.change_invoice')
 def invoice_new(req):
     if req.method == 'POST':
         form = InvoiceForm(req.POST)

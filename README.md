@@ -43,17 +43,24 @@ python manage.py migrate
 
 ## User Management
 
-The application requires authentication in order to access invoices. Users and permissions are currently managed
-using the Django's bulit-in Admin panel. You're required to manually create an initial superuser account in order
-to access the Admin panel. That can be done by using the `manage.py` script:
+The application requires authentication and authorization in order to access and manage invoices. Users can be created
+using the application's register form (available on the `/accounts/register` endpoint). Users and permissions can be
+managed by using Django's built-in Admin panel.
+
+Before you get started, you have to manually create an initial superuser account in order to access the Admin panel.
+That can be done by using the `manage.py` script:
 
 ```shell
 python manage.py createsuperuser
 ```
 
-## Permissions and Access Control
+### Permissions and Access Control
 
-TODO
+The following permissions are used by the application:
+
+* login required to preview invoices
+* `invoices_app.change_invoice` required to create, edit, and manage invoices and invoice items
+* `invoices_app.delete_invoice` required to delete invoices
 
 ## Running Development Server
 
