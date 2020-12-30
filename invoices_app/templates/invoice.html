@@ -53,6 +53,9 @@
 
     <div class="row g-3 mt-5">
         <div class="col-md-12 text-start">
+            <p><b>Total:</b> {{ total.total|intcomma }}</p>
+        </div>
+        <div class="col-md-12 text-start">
             <p><b>Pay to:</b> {{ invoice.payment_account }}</p>
         </div>
         <div class="col-md-12 text-start">

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db.models import Sum
 from .models import Invoice, InvoiceItem
 from .forms import InvoiceForm, InvoiceItemForm
 
@@ -21,7 +22,8 @@ def invoices(req):
 def invoice(req, invoice_id):
     inv = get_object_or_404(Invoice, id=invoice_id)
     inv_items = InvoiceItem.objects.filter(invoice=inv)
-    return render(req, 'invoice.html', {'invoice': inv, 'invoice_items': inv_items})
+    total = inv_items.aggregate(total=Sum('total'))
+    return render(req, 'invoice.html', {'invoice': inv, 'invoice_items': inv_items, 'total': total})
 
 
 @permission_required('invoices_app.add_invoice')
