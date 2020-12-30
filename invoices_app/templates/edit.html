@@ -1,5 +1,4 @@
 {% extends 'master.html' %}
-{% load humanize %}
 
 {% block title %}
     Invoices - Edit invoice
@@ -25,7 +24,7 @@
           </div>
           <div class="col-md-6">
               <label for="{{ form.date.id_for_label }}" class="form-label">{{ form.date.label_tag }}</label>
-              <input type="date" class="form-control" id="{{ form.date.id_for_label }}" name="{{ form.date.name }}" value="{{ form.date.value }}" required>
+              <input type="date" class="form-control" id="{{ form.date.id_for_label }}" name="{{ form.date.name }}" value="{{ form.date.value|date:'Y-m-d' }}" required>
               {% if form.date.errors %}
                 <div class="alert alert-danger">
                     <ul style="text-align: left">

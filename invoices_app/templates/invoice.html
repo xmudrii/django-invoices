@@ -72,11 +72,24 @@
 
     <!-- Buttons -->
     <div class="col-12 d-print-none">
-        <a class="btn btn-primary" href="{% url 'invoices_app:new_item' invoice.id %}" role="button">Add new item</a>
-        <a class="btn btn-primary" href="{% url 'invoices_app:edit' invoice.id %}" role="button">Edit invoice details</a>
+        {% if perms.invoices_app.change_invoice %}
+            <a class="btn btn-primary" href="{% url 'invoices_app:new_item' invoice.id %}" role="button">Add new item</a>
+        {% else %}
+            <a class="btn btn-primary" href="{% url 'invoices_app:new_item' invoice.id %}" role="button" disabled>Add new item</a>
+        {% endif %}
+
+        {% if perms.invoices_app.change_invoice %}
+            <a class="btn btn-primary" href="{% url 'invoices_app:edit' invoice.id %}" role="button">Edit invoice details</a>
+        {% else %}
+            <a class="btn btn-primary" href="{% url 'invoices_app:edit' invoice.id %}" role="button" disabled>Edit invoice details</a>
+        {% endif %}
+
         <a class="btn btn-primary" href="javascript: window.print();" role="button">Print invoice</a>
+
         {% if perms.invoices_app.delete_invoice %}
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmInvoiceDelete">Delete invoice</button>
+        {% else %}
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmInvoiceDelete" disabled>Delete invoice</button>
         {% endif %}
     </div>
 
