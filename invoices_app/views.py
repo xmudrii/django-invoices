@@ -51,7 +51,6 @@ def invoice_edit(req, invoice_id):
         form = InvoiceForm(req.POST, instance=inv)
 
         if form.is_valid():
-            inv = Invoice.objects.get(id=invoice_id)
             inv.number = form.cleaned_data['number']
             inv.date = form.cleaned_data['date']
             inv.company_name = form.cleaned_data['company_name']
@@ -68,6 +67,13 @@ def invoice_edit(req, invoice_id):
     else:
         form = InvoiceForm(instance=inv)
         return render(req, 'edit.html', {'form': form, 'id': invoice_id, 'items': inv_items})
+
+
+def invoice_delete(req, invoice_id):
+    if req.method == 'DELETE':
+        inv = Invoice.objects.get(id=invoice_id)
+        inv.delete()
+        return redirect('invoices_app:invoices')
 
 
 def invoice_add_item(req, invoice_id):
@@ -87,3 +93,21 @@ def invoice_add_item(req, invoice_id):
     else:
         form = InvoiceItemForm()
         return render(req, 'additem.html', {'form': form, 'invoice_id': invoice_id})
+
+
+def invoice_edit_item(req, item_id):
+    inv_item = InvoiceItem.objects.get(id=item_id)
+
+    if req.method == 'POST':
+        form = InvoiceItemForm(req.POST, instance=inv_item)
+
+        if form.is_valid():
+            inv_item.description = form.cleaned_data['description']
+            inv_item.total = form.cleaned_data['total']
+            inv_item.save()
+            return redirect('invoices_app:edit', invoice_id=inv_item.invoice.id)
+        else:
+            return render(req, 'edititem.html', {'form': form, 'item_id': item_id})
+    else:
+        form = InvoiceItemForm(instance=inv_item)
+        return render(req, 'edititem.html', {'form': form, 'item_id': item_id})
