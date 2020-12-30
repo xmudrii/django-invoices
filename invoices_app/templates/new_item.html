@@ -9,7 +9,7 @@
         {% csrf_token %}
           <div class="col-md-12">
               <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label_tag }}</label>
-              <textarea class="form-control" id="{{ form.description.id_for_label }}" name="{{ form.description.name }}"></textarea>
+              <textarea class="form-control" id="{{ form.description.id_for_label }}" name="{{ form.description.name }}">{{ form.description.value|default_if_none:'' }}</textarea>
               {% if form.description.errors %}
                 <div class="alert alert-danger">
                     <ul style="text-align: left">
@@ -22,7 +22,7 @@
           </div>
           <div class="col-md-6">
               <label for="{{ form.total.id_for_label }}" class="form-label">{{ form.total.label_tag }}</label>
-              <input type="text" class="form-control" id="{{ form.total.id_for_label }}" name="{{ form.total.name }}">
+              <input type="text" class="form-control" id="{{ form.total.id_for_label }}" name="{{ form.total.name }}" value="{{ form.total.value|default_if_none:'' }}">
               {% if form.total.errors %}
                 <div class="alert alert-danger">
                     <ul style="text-align: left">
