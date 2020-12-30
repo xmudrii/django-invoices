@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, permission_required
 from .models import Invoice, InvoiceItem
 from .forms import InvoiceForm, InvoiceItemForm
 
@@ -10,15 +11,18 @@ def index(req):
         return redirect('invoices_app:invoices')
 
 
+@login_required
 def invoices(req):
     inv = Invoice.objects.all()
     return render(req, 'invoices.html', {'invoices': inv})
 
 
+@login_required
 def invoice(req):
     return None
 
 
+@permission_required('invoices_app.add_invoice')
 def invoice_new(req):
     if req.method == 'POST':
         form = InvoiceForm(req.POST)
@@ -43,6 +47,7 @@ def invoice_new(req):
         return render(req, 'new.html', {'form': form})
 
 
+@permission_required('invoices_app.change_invoice')
 def invoice_edit(req, invoice_id):
     inv = get_object_or_404(Invoice, id=invoice_id)
     inv_items = InvoiceItem.objects.filter(invoice=inv)
@@ -69,6 +74,14 @@ def invoice_edit(req, invoice_id):
         return render(req, 'edit.html', {'form': form, 'id': invoice_id, 'items': inv_items})
 
 
+@permission_required('invoices_app.delete_invoice')
+def invoice_delete(req, invoice_id):
+    inv = get_object_or_404(Invoice, id=invoice_id)
+    inv.delete()
+    return redirect('invoices_app:invoices')
+
+
+@permission_required('invoices_app.change_invoice')
 def invoice_new_item(req, invoice_id):
     if req.method == 'POST':
         inv = get_object_or_404(Invoice, id=invoice_id)
@@ -88,6 +101,7 @@ def invoice_new_item(req, invoice_id):
         return render(req, 'newitem.html', {'form': form, 'invoice_id': invoice_id})
 
 
+@permission_required('invoices_app.change_invoice')
 def invoice_edit_item(req, item_id):
     inv_item = get_object_or_404(InvoiceItem, id=item_id)
 

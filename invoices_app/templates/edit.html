@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+    <!-- Edit form -->
     <form class="row g-3" method="post" action="{% url 'invoices_app:edit' id %}">
         {% csrf_token %}
           <div class="col-md-6">
@@ -127,8 +128,11 @@
           </div>
           <div class="col-12">
               <button type="submit" class="btn btn-primary">Save</button>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmInvoiceDelete">Delete invoice</button>
           </div>
     </form>
+
+    <!-- Items table -->
     <table class="table">
         <thead>
             <tr>
@@ -149,6 +153,25 @@
     </table>
     <div class="col-12">
         <a class="btn btn-primary" href="{% url 'invoices_app:newitem' id %}" role="button">Add new item</a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmInvoiceDelete" tabindex="-1" aria-labelledby="confirmInvoiceDeleteLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmInvoiceDeleteLabel">Delete invoice?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            This will delete the invoice and all invoice items permanently. Are you sure you want to proceed?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a class="btn btn-danger" href="{% url 'invoices_app:delete' id %}" role="button">Delete</a>
+          </div>
+        </div>
+      </div>
     </div>
 
 {% endblock %}
