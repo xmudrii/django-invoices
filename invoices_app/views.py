@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Invoice, InvoiceItem
 from .forms import InvoiceForm, InvoiceItemForm
 
@@ -44,7 +44,7 @@ def invoice_new(req):
 
 
 def invoice_edit(req, invoice_id):
-    inv = Invoice.objects.get(id=invoice_id)
+    inv = get_object_or_404(Invoice, id=invoice_id)
     inv_items = InvoiceItem.objects.filter(invoice=inv)
 
     if req.method == 'POST':
@@ -69,16 +69,9 @@ def invoice_edit(req, invoice_id):
         return render(req, 'edit.html', {'form': form, 'id': invoice_id, 'items': inv_items})
 
 
-def invoice_delete(req, invoice_id):
-    if req.method == 'DELETE':
-        inv = Invoice.objects.get(id=invoice_id)
-        inv.delete()
-        return redirect('invoices_app:invoices')
-
-
-def invoice_add_item(req, invoice_id):
+def invoice_new_item(req, invoice_id):
     if req.method == 'POST':
-        inv = Invoice.objects.get(id=invoice_id)
+        inv = get_object_or_404(Invoice, id=invoice_id)
         form = InvoiceItemForm(req.POST)
 
         if form.is_valid():
@@ -89,14 +82,14 @@ def invoice_add_item(req, invoice_id):
             invItm.save()
             return redirect('invoices_app:edit', invoice_id=invoice_id)
         else:
-            return render(req, 'additem.html', {'form': form, 'invoice_id': invoice_id})
+            return render(req, 'newitem.html', {'form': form, 'invoice_id': invoice_id})
     else:
         form = InvoiceItemForm()
-        return render(req, 'additem.html', {'form': form, 'invoice_id': invoice_id})
+        return render(req, 'newitem.html', {'form': form, 'invoice_id': invoice_id})
 
 
 def invoice_edit_item(req, item_id):
-    inv_item = InvoiceItem.objects.get(id=item_id)
+    inv_item = get_object_or_404(InvoiceItem, id=item_id)
 
     if req.method == 'POST':
         form = InvoiceItemForm(req.POST, instance=inv_item)

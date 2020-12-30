@@ -1,4 +1,5 @@
 {% extends 'master.html' %}
+{% load humanize %}
 
 {% block title %}
     Invoices - Edit invoice
@@ -133,19 +134,21 @@
             <tr>
                 <th scope="col">Description</th>
                 <th scope="col">Total</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
             {% for item in items %}
                 <tr>
-                    <th scope="row"><a href="{% url 'invoices_app:edititem' item.id %}">{{ item.description }}</a></th>
-                    <td>{{ item.total }}</td>
+                    <th scope="row">{{ item.description }}</th>
+                    <td>{{ item.total|intcomma }}</td>
+                    <td><a href="{% url 'invoices_app:edititem' item.id %}">Edit</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <div class="col-12">
-        <a class="btn btn-primary" href="{% url 'invoices_app:additem' id %}" role="button">Add new item</a>
+        <a class="btn btn-primary" href="{% url 'invoices_app:newitem' id %}" role="button">Add new item</a>
     </div>
 
 {% endblock %}
