@@ -41,6 +41,8 @@ python manage.py makemigrations invoices_app
 python manage.py migrate
 ```
 
+**Note:** The database has to be created before applying migrations.
+
 ## User Management
 
 The application requires authentication and authorization in order to access and manage invoices. Users can be created
@@ -61,6 +63,8 @@ The following permissions are used by the application:
 * login required to preview invoices
 * `invoices_app.change_invoice` required to create, edit, and manage invoices and invoice items
 * `invoices_app.delete_invoice` required to delete invoices
+
+By default, users created using the register form are created without any permissions set.
 
 ## Running Development Server
 

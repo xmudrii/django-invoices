@@ -35,7 +35,9 @@
             <tr>
                 <th scope="col">Description</th>
                 <th scope="col">Total</th>
-                <th scope="col"></th>
+                {% if perms.invoices_app.change_invoice %}
+                    <th scope="col"></th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -43,7 +45,9 @@
                 <tr>
                     <td class="text-start">{{ item.description }}</td>
                     <td class="text-end">{{ item.total|intcomma }}</td>
-                    <td class="text-end"><a class="d-print-none" href="{% url 'invoices_app:edit_item' item.id %}">Edit</a></td>
+                    {% if perms.invoices_app.change_invoice %}
+                        <td class="text-end"><a class="d-print-none" href="{% url 'invoices_app:edit_item' item.id %}">Edit</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
