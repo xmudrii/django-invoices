@@ -19,3 +19,12 @@ class Invoice(models.Model):
 
     def __str__(self):
         return self.number + ' (' + self.company_name + ")"
+
+
+class InvoiceItem(models.Model):
+    description = models.TextField()
+    total = models.DecimalField(max_digits=15, decimal_places=2)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)

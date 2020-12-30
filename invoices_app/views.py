@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Invoice
-from .forms import InvoiceForm
+from .models import Invoice, InvoiceItem
+from .forms import InvoiceForm, InvoiceItemForm
 
 
 def index(req):
@@ -19,7 +19,7 @@ def invoice(req):
     return None
 
 
-def new(req):
+def invoice_new(req):
     if req.method == 'POST':
         form = InvoiceForm(req.POST)
 
@@ -35,7 +35,7 @@ def new(req):
                           remarks=form.cleaned_data['remarks'],
                           owner=req.user)
             inv.save()
-            return redirect('invoices_app:invoices')
+            return redirect('invoices_app:edit', invoice_id=inv.id)
         else:
             return render(req, 'new.html', {'form': form})
     else:
@@ -43,13 +43,15 @@ def new(req):
         return render(req, 'new.html', {'form': form})
 
 
-def edit(req, id):
-    inv = Invoice.objects.get(id=id)
+def invoice_edit(req, invoice_id):
+    inv = Invoice.objects.get(id=invoice_id)
+    inv_items = InvoiceItem.objects.filter(invoice=inv)
+
     if req.method == 'POST':
         form = InvoiceForm(req.POST, instance=inv)
 
         if form.is_valid():
-            inv = Invoice.objects.get(id=id)
+            inv = Invoice.objects.get(id=invoice_id)
             inv.number = form.cleaned_data['number']
             inv.date = form.cleaned_data['date']
             inv.company_name = form.cleaned_data['company_name']
@@ -62,7 +64,26 @@ def edit(req, id):
             inv.save()
             return redirect('invoices_app:invoices')
         else:
-            return render(req, 'edit.html', {'form': form, 'id': id})
+            return render(req, 'edit.html', {'form': form, 'id': invoice_id, 'items': inv_items})
     else:
         form = InvoiceForm(instance=inv)
-        return render(req, 'edit.html', {'form': form, 'id': id})
+        return render(req, 'edit.html', {'form': form, 'id': invoice_id, 'items': inv_items})
+
+
+def invoice_add_item(req, invoice_id):
+    if req.method == 'POST':
+        inv = Invoice.objects.get(id=invoice_id)
+        form = InvoiceItemForm(req.POST)
+
+        if form.is_valid():
+            invItm = InvoiceItem(description=form.cleaned_data['description'],
+                                 total=form.cleaned_data['total'],
+                                 invoice=inv,
+                                 owner=req.user)
+            invItm.save()
+            return redirect('invoices_app:edit', invoice_id=invoice_id)
+        else:
+            return render(req, 'additem.html', {'form': form, 'invoice_id': invoice_id})
+    else:
+        form = InvoiceItemForm()
+        return render(req, 'additem.html', {'form': form, 'invoice_id': invoice_id})

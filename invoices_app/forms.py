@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Form
 import django.forms as f
-from .models import Invoice
+from .models import Invoice, InvoiceItem
 
 
 class InvoiceForm(ModelForm):
@@ -16,4 +16,13 @@ class InvoiceForm(ModelForm):
             'company_country',
             'payment_account',
             'remarks'
+        ]
+
+
+class InvoiceItemForm(ModelForm):
+    class Meta:
+        model = InvoiceItem
+        fields = [
+            'description',
+            'total'
         ]
