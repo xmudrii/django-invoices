@@ -1,0 +1,134 @@
+{% extends 'master.html' %}
+
+{% block title %}
+    Invoices - Add new
+{% endblock %}
+
+{% block content %}
+    <form class="row g-3" method="post" action="{% url 'invoices_app:new' %}">
+        {% csrf_token %}
+          <div class="col-md-6">
+              <label for="id_number" class="form-label">Invoice No.</label>
+              <input type="text" name="number" id="id_number" class="form-control">
+              {% if form.number.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.number.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              {% endif %}
+          </div>
+          <div class="col-md-6">
+              <label for="id_date" class="form-label">Date</label>
+              <input type="text" name="date" id="id_date" class="form-control">
+              {% if form.date.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.date.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              {% endif %}
+          </div>
+          <div class="col-12">
+              <label for="id_companyName" class="form-label">Company Name</label>
+              <input type="text" name="companyName" id="id_companyName" class="form-control">
+              {% if form.companyName.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.companyName.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              {% endif %}
+          </div>
+          <div class="col-12">
+              <label for="id_companyAddress" class="form-label">Company Address</label>
+              <input type="text" name="companyAddress" id="id_companyAddress" class="form-control">
+              {% if form.companyAddress.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.companyAddress.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              {% endif %}
+          </div>
+          <div class="col-md-2">
+              <label for="id_companyPostCode" class="form-label">Post</label>
+              <input type="text" name="companyPostCode" id="id_companyPostCode" class="form-control">
+              {% if form.companyPostCode.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.companyPostCode.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              {% endif %}
+          </div>
+          <div class="col-md-6">
+              <label for="id_companyCity" class="form-label">City</label>
+              <input type="text" name="companyCity" id="id_companyCity" class="form-control">
+              {% if form.companyCity.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.companyCity.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              {% endif %}
+          </div>
+          <div class="col-md-4">
+              <label for="id_companyCountry" class="form-label">Country</label>
+              <input type="text" name="companyCountry" id="id_companyCountry" class="form-control">
+              {% if form.companyCountry.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.companyCountry.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              {% endif %}
+          </div>
+          <div class="col-md-12">
+              <label for="id_paymentAccount" class="form-label">Payment Account</label>
+              <input type="text" name="paymentAccount" id="id_paymentAccount" class="form-control">
+              {% if form.paymentAccount.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.paymentAccount.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              {% endif %}
+          </div>
+          <div class="col-md-12">
+              <label for="id_remarks" class="form-label">Remarks</label>
+              <textarea name="remarks" id="id_remarks" class="form-control"></textarea>
+              {% if form.remarks.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.remarks.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+              {% endif %}
+          </div>
+          <div class="col-12">
+              <p>Save the invoice to add subitems.</p>
+          </div>
+          <div class="col-12">
+              <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+    </form>
+{% endblock %}

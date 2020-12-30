@@ -1,9 +1,33 @@
 {% extends 'master.html' %}
 
 {% block title %}
-    Invoices
+    Invoices - Preview
 {% endblock %}
 
 {% block content %}
-    <p>Invoices.</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Company</th>
+                <th scope="col">City</th>
+                <th scope="col">Country</th>
+                <th scope="col">Invoice Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+                <tr>
+                    <th scope="row"><a href="{% url 'invoices_app:invoice' invoice.id %}">{{ invoice.number }}</a></th>
+                    <td>{{ invoice.date }}</td>
+                    <td>{{ invoice.companyName }}</td>
+                    <td>{{ invoice.companyCity }}</td>
+                    <td>{{ invoice.companyCountry }}</td>
+                    <td>{{ invoice.invoiceTotal }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Click on invoice # to open the invoice for editing.</p>
 {% endblock %}
