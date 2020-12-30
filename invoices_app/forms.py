@@ -9,11 +9,11 @@ class InvoiceForm(ModelForm):
         fields = [
             'number',
             'date',
-            'companyName',
-            'companyAddress',
-            'companyCity',
-            'companyPostCode',
-            'companyCountry',
-            'paymentAccount',
+            'company_name',
+            'company_address',
+            'company_city',
+            'company_post_code',
+            'company_country',
+            'payment_account',
             'remarks'
         ]

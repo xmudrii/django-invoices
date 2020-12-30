@@ -13,18 +13,16 @@
                 <th scope="col">Company</th>
                 <th scope="col">City</th>
                 <th scope="col">Country</th>
-                <th scope="col">Invoice Total</th>
             </tr>
         </thead>
         <tbody>
             {% for invoice in invoices %}
                 <tr>
-                    <th scope="row"><a href="{% url 'invoices_app:invoice' invoice.id %}">{{ invoice.number }}</a></th>
+                    <th scope="row"><a href="{% url 'invoices_app:edit' invoice.id %}">{{ invoice.number }}</a></th>
                     <td>{{ invoice.date }}</td>
-                    <td>{{ invoice.companyName }}</td>
-                    <td>{{ invoice.companyCity }}</td>
-                    <td>{{ invoice.companyCountry }}</td>
-                    <td>{{ invoice.invoiceTotal }}</td>
+                    <td>{{ invoice.company_name }}</td>
+                    <td>{{ invoice.company_city }}</td>
+                    <td>{{ invoice.company_country }}</td>
                 </tr>
             {% endfor %}
         </tbody>

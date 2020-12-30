@@ -26,12 +26,12 @@ def new(req):
         if form.is_valid():
             inv = Invoice(number=form.cleaned_data['number'],
                           date=form.cleaned_data['date'],
-                          companyName=form.cleaned_data['companyName'],
-                          companyAddress=form.cleaned_data['companyAddress'],
-                          companyCity=form.cleaned_data['companyCity'],
-                          companyPostCode=form.cleaned_data['companyPostCode'],
-                          companyCountry=form.cleaned_data['companyCountry'],
-                          paymentAccount=form.cleaned_data['paymentAccount'],
+                          company_name=form.cleaned_data['company_name'],
+                          company_address=form.cleaned_data['company_address'],
+                          company_city=form.cleaned_data['company_city'],
+                          company_post_code=form.cleaned_data['company_post_code'],
+                          company_country=form.cleaned_data['company_country'],
+                          payment_account=form.cleaned_data['payment_account'],
                           remarks=form.cleaned_data['remarks'],
                           owner=req.user)
             inv.save()
@@ -43,5 +43,26 @@ def new(req):
         return render(req, 'new.html', {'form': form})
 
 
-def edit(req):
-    return None
+def edit(req, id):
+    inv = Invoice.objects.get(id=id)
+    if req.method == 'POST':
+        form = InvoiceForm(req.POST, instance=inv)
+
+        if form.is_valid():
+            inv = Invoice.objects.get(id=id)
+            inv.number = form.cleaned_data['number']
+            inv.date = form.cleaned_data['date']
+            inv.company_name = form.cleaned_data['company_name']
+            inv.company_address = form.cleaned_data['company_address']
+            inv.company_city = form.cleaned_data['company_city']
+            inv.company_post_code = form.cleaned_data['company_post_code']
+            inv.company_country = form.cleaned_data['company_country']
+            inv.payment_account = form.cleaned_data['payment_account']
+            inv.remarks = form.cleaned_data['remarks']
+            inv.save()
+            return redirect('invoices_app:invoices')
+        else:
+            return render(req, 'edit.html', {'form': form, 'id': id})
+    else:
+        form = InvoiceForm(instance=inv)
+        return render(req, 'edit.html', {'form': form, 'id': id})
