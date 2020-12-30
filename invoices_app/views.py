@@ -99,10 +99,10 @@ def invoice_new_item(req, invoice_id):
             invItm.save()
             return redirect('invoices_app:edit', invoice_id=invoice_id)
         else:
-            return render(req, 'newitem.html', {'form': form, 'invoice_id': invoice_id})
+            return render(req, 'new_item.html', {'form': form, 'invoice_id': invoice_id})
     else:
         form = InvoiceItemForm()
-        return render(req, 'newitem.html', {'form': form, 'invoice_id': invoice_id})
+        return render(req, 'new_item.html', {'form': form, 'invoice_id': invoice_id})
 
 
 @permission_required('invoices_app.change_invoice')
@@ -118,10 +118,10 @@ def invoice_edit_item(req, item_id):
             inv_item.save()
             return redirect('invoices_app:edit', invoice_id=inv_item.invoice.id)
         else:
-            return render(req, 'edititem.html', {'form': form, 'item_id': item_id})
+            return render(req, 'edit_item.html', {'form': form, 'item_id': item_id})
     else:
         form = InvoiceItemForm(instance=inv_item)
-        return render(req, 'edititem.html', {'form': form, 'item_id': item_id})
+        return render(req, 'edit_item.html', {'form': form, 'item_id': item_id})
 
 
 @permission_required('invoices_app.change_invoice')

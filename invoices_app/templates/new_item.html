@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <form class="row g-3" method="post" action="{% url 'invoices_app:newitem' invoice_id %}">
+    <form class="row g-3" method="post" action="{% url 'invoices_app:new_item' invoice_id %}">
         {% csrf_token %}
           <div class="col-md-12">
               <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label_tag }}</label>

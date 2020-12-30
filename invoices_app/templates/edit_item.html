@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <form class="row g-3" method="post" action="{% url 'invoices_app:edititem' item_id %}">
+    <form class="row g-3" method="post" action="{% url 'invoices_app:edit_item' item_id %}">
         {% csrf_token %}
           <div class="col-md-12">
               <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label_tag }}</label>
@@ -55,7 +55,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <a class="btn btn-danger" href="{% url 'invoices_app:deleteitem' item_id %}" role="button">Delete</a>
+            <a class="btn btn-danger" href="{% url 'invoices_app:delete_item' item_id %}" role="button">Delete</a>
           </div>
         </div>
       </div>

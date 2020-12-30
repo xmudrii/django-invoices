@@ -148,13 +148,13 @@
                 <tr>
                     <th scope="row">{{ item.description }}</th>
                     <td>{{ item.total|intcomma }}</td>
-                    <td><a href="{% url 'invoices_app:edititem' item.id %}">Edit</a></td>
+                    <td><a href="{% url 'invoices_app:edit_item' item.id %}">Edit</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <div class="col-12">
-        <a class="btn btn-primary" href="{% url 'invoices_app:newitem' id %}" role="button">Add new item</a>
+        <a class="btn btn-primary" href="{% url 'invoices_app:new_item' id %}" role="button">Add new item</a>
     </div>
 
     {% if perms.invoices_app.delete_invoice %}

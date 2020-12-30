@@ -9,7 +9,7 @@ urlpatterns = [
     path('invoice/new/', views.invoice_new, name='new'),
     path('invoice/edit/<int:invoice_id>/', views.invoice_edit, name='edit'),
     path('invoice/delete/<int:invoice_id>/', views.invoice_delete, name='delete'),
-    path('invoice/newitem/<int:invoice_id>', views.invoice_new_item, name='newitem'),
-    path('invoice/edititem/<int:item_id>', views.invoice_edit_item, name='edititem'),
-    path('invoice/deleteitem/<int:item_id>', views.invoice_delete_item, name='deleteitem')
+    path('invoice/<int:invoice_id>/new', views.invoice_new_item, name='new_item'),
+    path('invoice/item/edit/<int:item_id>', views.invoice_edit_item, name='edit_item'),
+    path('invoice/item/delete/<int:item_id>', views.invoice_delete_item, name='delete_item')
 ]
