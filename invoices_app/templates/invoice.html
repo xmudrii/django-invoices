@@ -1,0 +1,95 @@
+{% extends 'master.html' %}
+{% load humanize %}
+
+{% block title %}
+    Invoices - Details
+{% endblock %}
+
+{% block content %}
+    <div class="row g-3">
+        <div class="col-md-6">
+            <p><b>Invoice #: {{ invoice.number }}</b></p>
+        </div>
+        <div class="col-md-6">
+            <p><b>Date:</b> {{ invoice.date|date:'d.m.Y' }}</p>
+        </div>
+        <div class="col-md-12 text-start">
+            <p><b>Invoice to:</b></p>
+        </div>
+        <div class="col-md-12 text-start">
+            <p><b>{{ invoice.company_name }}</b></p>
+            <p>{{ invoice.company_address }}</p>
+            <p>{{ invoice.company_address }}</p>
+            <p>{{ invoice.company_country }}</p>
+        </div>
+        <div class="col-md-12"></div>
+        <div class="col-md-12"></div>
+        <div class="col-md-12"></div>
+    </div>
+
+    <!-- Items table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Description</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in invoice_items %}
+                <tr>
+                    <td class="text-start">{{ item.description }}</td>
+                    <td class="text-end">{{ item.total|intcomma }}</td>
+                    <td class="text-end"><a class="d-print-none" href="{% url 'invoices_app:edit_item' item.id %}">Edit</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="col-md-12">
+
+    </div>
+
+    <div class="row g-3 mt-5">
+        <div class="col-md-12 text-start">
+            <p><b>Pay to:</b> {{ invoice.payment_account }}</p>
+        </div>
+        <div class="col-md-12 text-start">
+            <p><b>Remarks:</b> {{ invoice.remarks }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+
+    </div>
+
+    <div class="col-12 d-print-none">
+        <a class="btn btn-primary" href="{% url 'invoices_app:new_item' invoice.id %}" role="button">Add new item</a>
+        <a class="btn btn-primary" href="{% url 'invoices_app:edit' invoice.id %}" role="button">Edit invoice details</a>
+        {% if perms.invoices_app.delete_invoice %}
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmInvoiceDelete">Delete invoice</button>
+        {% endif %}
+    </div>
+
+    {% if perms.invoices_app.delete_invoice %}
+    <!-- Modal -->
+    <div class="modal fade" id="confirmInvoiceDelete" tabindex="-1" aria-labelledby="confirmInvoiceDeleteLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmInvoiceDeleteLabel">Delete invoice?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            This will delete the invoice and all invoice items permanently. Are you sure you want to proceed?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a class="btn btn-danger" href="{% url 'invoices_app:delete' invoice.id %}" role="button">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+{% endblock %}

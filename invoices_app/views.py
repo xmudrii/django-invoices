@@ -18,8 +18,10 @@ def invoices(req):
 
 
 @login_required
-def invoice(req):
-    return None
+def invoice(req, invoice_id):
+    inv = get_object_or_404(Invoice, id=invoice_id)
+    inv_items = InvoiceItem.objects.filter(invoice=inv)
+    return render(req, 'invoice.html', {'invoice': inv, 'invoice_items': inv_items})
 
 
 @permission_required('invoices_app.add_invoice')
@@ -40,7 +42,7 @@ def invoice_new(req):
                           owner=req.user)
             inv.save()
             if req.user.has_perm('invoices_app.change_invoice'):
-                return redirect('invoices_app:edit', invoice_id=inv.id)
+                return redirect('invoices_app:invoice', invoice_id=inv.id)
             else:
                 return redirect('invoices_app:invoices')
         else:
@@ -53,7 +55,6 @@ def invoice_new(req):
 @permission_required('invoices_app.change_invoice')
 def invoice_edit(req, invoice_id):
     inv = get_object_or_404(Invoice, id=invoice_id)
-    inv_items = InvoiceItem.objects.filter(invoice=inv)
 
     if req.method == 'POST':
         form = InvoiceForm(req.POST, instance=inv)
@@ -69,12 +70,12 @@ def invoice_edit(req, invoice_id):
             inv.payment_account = form.cleaned_data['payment_account']
             inv.remarks = form.cleaned_data['remarks']
             inv.save()
-            return redirect('invoices_app:invoices')
+            return redirect('invoices_app:invoice', invoice_id=invoice_id)
         else:
-            return render(req, 'edit.html', {'form': form, 'id': invoice_id, 'items': inv_items})
+            return render(req, 'edit.html', {'form': form, 'id': invoice_id})
     else:
         form = InvoiceForm(instance=inv)
-        return render(req, 'edit.html', {'form': form, 'id': invoice_id, 'items': inv_items})
+        return render(req, 'edit.html', {'form': form, 'id': invoice_id})
 
 
 @permission_required('invoices_app.delete_invoice')
@@ -97,7 +98,7 @@ def invoice_new_item(req, invoice_id):
                                  invoice=inv,
                                  owner=req.user)
             invItm.save()
-            return redirect('invoices_app:edit', invoice_id=invoice_id)
+            return redirect('invoices_app:invoice', invoice_id=invoice_id)
         else:
             return render(req, 'new_item.html', {'form': form, 'invoice_id': invoice_id})
     else:
@@ -116,7 +117,7 @@ def invoice_edit_item(req, item_id):
             inv_item.description = form.cleaned_data['description']
             inv_item.total = form.cleaned_data['total']
             inv_item.save()
-            return redirect('invoices_app:edit', invoice_id=inv_item.invoice.id)
+            return redirect('invoices_app:invoice', invoice_id=inv_item.invoice.id)
         else:
             return render(req, 'edit_item.html', {'form': form, 'item_id': item_id})
     else:
@@ -128,4 +129,4 @@ def invoice_edit_item(req, item_id):
 def invoice_delete_item(req, item_id):
     inv_item = get_object_or_404(InvoiceItem, id=item_id)
     inv_item.delete()
-    return redirect('invoices_app:edit', invoice_id=inv_item.invoice.id)
+    return redirect('invoices_app:invoice', invoice_id=inv_item.invoice.id)

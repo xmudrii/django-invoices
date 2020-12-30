@@ -18,22 +18,13 @@
         <tbody>
             {% for invoice in invoices %}
                 <tr>
-                    {% if perms.invoices_app.change_invoice %}
-                        <th scope="row"><a href="{% url 'invoices_app:edit' invoice.id %}">{{ invoice.number }}</a></th>
-                    {% else %}
-                        <th scope="row">{{ invoice.number }}</th>
-                    {% endif %}
+                    <th scope="row"><a href="{% url 'invoices_app:invoice' invoice.id %}">{{ invoice.number }}</a></th>
                     <td>{{ invoice.date|date:'d.m.Y' }}</td>
-                    <td>{{ invoice.company_name }}</td>
-                    <td>{{ invoice.company_city }}</td>
-                    <td>{{ invoice.company_country }}</td>
+                    <td class="text-start">{{ invoice.company_name }}</td>
+                    <td class="text-start">{{ invoice.company_city }}</td>
+                    <td class="text-start">{{ invoice.company_country }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    {% if perms.invoices_app.change_invoice %}
-        <p>Click on invoice # to open the invoice for editing.</p>
-    {% else %}
-        <p>You don't have permissions to edit invoices.</p>
-    {% endif %}
 {% endblock %}
